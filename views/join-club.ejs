@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= title %></title>
+  </head>
+  <body>
+    <%- include('header') %>
+    <main class="join-club-main">
+      <h2 class="join-club-main__title"><%= title %></h2>
+      <p class="join-club-main__description"><%= description %></p>
+      <% if (locals.error) { %>
+      <ul>
+        <% error.forEach((error) => { %>
+        <li><%= error.msg %></li>
+      </ul>
+
+      <% }); %> <% } %>
+      <form class="join-club-form" action="/join-club" method="post">
+        <input type="password" name="club_secret_code" />
+        <button class="join-club-form__button" type="submit">Join</button>
+      </form>
+    </main>
+    <%- include('footer') %>
+  </body>
+</html>
