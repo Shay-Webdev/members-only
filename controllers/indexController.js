@@ -7,25 +7,40 @@ const validateUser = [
     .isLength({ min: 1 })
     .withMessage('Name must be specified.')
     .isAlphanumeric()
-    .withMessage('Name has non-alphanumeric characters - not allowed.'),
+    .withMessage('Name has non-alphanumeric characters - not allowed.')
+    .escape(),
   body('last-name')
     .trim()
     .isLength({ min: 1 })
     .withMessage('Name must be specified.')
     .isAlphanumeric()
-    .withMessage('Name has non-alphanumeric characters - not allowed.'),
+    .withMessage('Name has non-alphanumeric characters - not allowed.')
+    .escape(),
   body('email')
     .trim()
     .isLength({ min: 1 })
     .withMessage('Email must be specified.')
     .isEmail()
-    .withMessage('Email must be a valid address.'),
+    .withMessage('Email must be a valid address.')
+    .normalizeEmail(),
   body('password')
     .trim()
     .isLength({ min: 1 })
     .withMessage('Password must be specified.')
     .isLength({ min: 8 })
-    .withMessage('Password must be at least 8 characters long.'),
+    .withMessage('Password must be at least 8 characters long.')
+    .escape(),
+  body('confirm-password')
+    .trim()
+    .isLength({ min: 1 })
+    .withMessage('Password must be specified.')
+    .isLength({ min: 8 })
+    .withMessage('Password must be at least 8 characters long.')
+    .escape()
+    .custom((value, { req }) => {
+      return value === req.body.password;
+    })
+    .withMessage('Passwords do not match'),
 ];
 
 const getHomePage = async (req, res, next) => {
