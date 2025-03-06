@@ -18,6 +18,11 @@
 
       <% }); %> <% } %>
       <form class="join-club-form" action="/join-club" method="post">
+        <label for="email">Email: </label>
+        <input type="email" name="email" id="email" />
+        <label for="password">Password: </label>
+        <input type="password" name="password" id="password" />
+        <label for="club_secret_code">Secret Code: </label>
         <input type="password" name="club_secret_code" />
         <button class="join-club-form__button" type="submit">Join</button>
       </form>

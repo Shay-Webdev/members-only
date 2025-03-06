@@ -7,7 +7,8 @@ const getUsers = async () => {
 
 const getAllEmails = async () => {
   const { rows } = await pool.query('SELECT email FROM users');
-  return rows;
+  const emailList = rows.map((email) => email.email);
+  return emailList;
 };
 const getUsersAndMessages = async () => {
   const { rows } = await pool.query(
@@ -24,9 +25,30 @@ const createUser = async (user) => {
   return rows;
 };
 
+const updateMembership = async (email) => {
+  const { rows } = await pool.query(
+    `UPDATE users SET membership_status = 't' WHERE email = $1 RETURNING *`,
+    [email]
+  );
+  return rows;
+};
+
+const getUserById = async (id) => {
+  const { rows } = await pool.query('SELECT * FROM users WHERE id = $1', [id]);
+  return rows;
+};
+const getUserByEmail = async (email) => {
+  const { rows } = await pool.query('SELECT * FROM users WHERE email = $1', [
+    email,
+  ]);
+  return rows;
+};
 module.exports = {
   getUsers,
   getAllEmails,
   getUsersAndMessages,
   createUser,
+  updateMembership,
+  getUserById,
+  getUserByEmail,
 };
