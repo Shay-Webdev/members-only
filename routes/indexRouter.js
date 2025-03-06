@@ -8,5 +8,8 @@ indexRouter
   .route('/join-club')
   .get(indexController.joinClubGet)
   .post(indexController.joinClubPost);
-
+indexRouter
+  .route('/log-in')
+  .get(indexController.logInGet)
+  .post(indexController.logInPost);
 module.exports = indexRouter;

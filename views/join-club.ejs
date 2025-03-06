@@ -10,13 +10,7 @@
     <main class="join-club-main">
       <h2 class="join-club-main__title"><%= title %></h2>
       <p class="join-club-main__description"><%= description %></p>
-      <% if (locals.error) { %>
-      <ul>
-        <% error.forEach((error) => { %>
-        <li><%= error.msg %></li>
-      </ul>
-
-      <% }); %> <% } %>
+      <%- include('error')%>
       <form class="join-club-form" action="/join-club" method="post">
         <label for="email">Email: </label>
         <input type="email" name="email" id="email" />
