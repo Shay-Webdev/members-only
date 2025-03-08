@@ -11,7 +11,15 @@
       <h1><%= title %></h1>
       <h2><%= description %></h2>
       <div class="log-in-form-container">
-        <%- include('error') %>
+        <% if (auth_error && auth_error.length > 0) { %>
+        <div class="error">
+          <ul>
+            <% auth_error.forEach(function(message) { %>
+            <li><%= message %></li>
+            <% }); %>
+          </ul>
+        </div>
+        <% } %> <%- include('error') %>
         <form action="/log-in" method="post" class="log-in-form">
           <label for="email">Email: </label>
           <input type="email" name="login_email" id="login_email" />

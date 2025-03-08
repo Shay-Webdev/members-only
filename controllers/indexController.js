@@ -10,6 +10,7 @@ const {
 const session = require('express-session');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
+const flash = require('connect-flash');
 
 passport.use(
   new LocalStrategy(
@@ -152,6 +153,8 @@ const logInGet = (req, res, next) => {
     res.render('../views/log-in', {
       title: 'Log In',
       description: 'Please enter your email and password to log in',
+
+      auth_error: req.flash('error'),
     });
     next();
   } catch (err) {
@@ -170,6 +173,7 @@ const logInPost = [
         title: 'Log In',
         description: 'Please enter your email and password to log in',
         error: errors.array(),
+        auth_error: req.flash('error'),
       });
     }
     console.log('User logged in: ', req.user, req.body);
@@ -178,6 +182,7 @@ const logInPost = [
   passport.authenticate('local', {
     successRedirect: '/',
     failureRedirect: '/log-in',
+    failureFlash: true,
   }),
 ];
 

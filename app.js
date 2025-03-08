@@ -7,6 +7,7 @@ const passport = require('passport');
 require('dotenv').config();
 const pgSession = require('connect-pg-simple')(session);
 const pool = require('./modules/pool');
+const flash = require('connect-flash');
 
 app.set('view engine', 'ejs');
 app.set('views', './views');
@@ -27,6 +28,7 @@ app.use(
   })
 );
 app.use(passport.session());
+app.use(flash());
 
 app.use('/', indexRouter);
 
