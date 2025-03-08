@@ -20,6 +20,7 @@
   "homepage": "https://github.com/Shay-Webdev/members-only#readme",
   "dependencies": {
     "bcryptjs": "^3.0.2",
+    "connect-pg-simple": "^10.0.0",
     "dotenv": "^16.4.7",
     "ejs": "^3.1.10",
     "express": "^4.21.2",

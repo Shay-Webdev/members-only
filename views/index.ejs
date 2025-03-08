@@ -9,45 +9,21 @@
   <body>
     <%- include('header') %>
     <main class="main">
+      <% if(locals.user) {%>
       <h2 class="main__title"><%= title %></h2>
       <p class="main__description"><%= description %></p>
-      <aside class="sign-up-container">
-        <h2>Please sign up for Members Only</h2>
-        <%- include('error') %>
-        <form action="/sign-up" method="post" class="sign-up-form">
-          <label for="first_name">First Name:</label>
-          <input
-            type="text"
-            id="first_name"
-            name="first_name"
-            placeholder="eg. John"
-          />
-          <label for="last_name">Last Name:</label>
-          <input
-            type="text"
-            id="last_name"
-            name="last_name"
-            placeholder="eg. Smith"
-          />
-          <label for="email">Email:</label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            placeholder="eg. john.smith@example.com"
-          />
-          <label for="password">Password:</label>
-          <input type="password" id="password" name="password" />
-          <label for="confirm-password">Confirm Password: </label
-          ><input
-            type="password"
-            id="confirm-password"
-            name="confirm-password"
-          />
-          <button type="submit">Sign Up</button>
-        </form>
-      </aside>
-      <section class="messages-container"><%- include('messages') %></section>
+
+      <section class="messages-container">
+        <h1 class="main__title">Welcome, <%= user.username %></h1>
+        <%- include('messages') %>
+        <a href="/log-out"><button>Log out</button></a>
+      </section>
+      <% } else {%>
+      <section>
+        <h1>Please login</h1>
+        <a href="/log-in"><button>Log in</button></a>
+      </section>
+      <% } %>
     </main>
     <%- include('footer') %>
   </body>

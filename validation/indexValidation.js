@@ -27,16 +27,13 @@ const validateUser = [
     .normalizeEmail()
     .custom(async (value, { req }) => {
       const email = await db.getAllEmails();
-      console.log('email list:', email, 'value:', value);
-
-      console.log(email.includes(value));
-
+      //   console.log('email list:', email, 'value:', value);
+      //   console.log(email.includes(value));
       if (email.includes(value)) {
-        console.log('Email already in use', 'throwing error');
-
+        // console.log('Email already in use', 'throwing error');
         throw new Error('Email already in use.');
       }
-      console.log('Email not in use');
+      //   console.log('Email not in use');
     })
     .escape(),
   body('password')
@@ -68,7 +65,7 @@ const validateJoinClubId = [
     .withMessage('Club ID has non-alphanumeric characters - not allowed.')
     .escape()
     .custom((value, { req }) => {
-      console.log('entered secret code:', value);
+      //   console.log('entered secret code:', value);
       return value === process.env.JOIN_CLUB_SECRET_CODE;
     })
     .withMessage('Incorrect Club ID'),
@@ -82,13 +79,13 @@ const validateJoinClubId = [
     .escape()
     .custom(async (value, { req }) => {
       const email = await db.getAllEmails();
-      console.log('email list:', email, 'entered email value:', value);
+      //   console.log('email list:', email, 'entered email value:', value);
       const isEmailInDb = await email.includes(value);
-      console.log('isEmailInDb:', isEmailInDb);
+      //   console.log('isEmailInDb:', isEmailInDb);
       if (!isEmailInDb) {
         throw new Error('email not found, sign up first');
       }
-      console.log('Email found');
+      //   console.log('Email found');
     }),
   body('password')
     .trim()
@@ -119,36 +116,36 @@ const validateLogIn = [
     .isEmail()
     .withMessage('Email must be a valid address.')
     .normalizeEmail()
-    .escape()
-    .custom(async (value, { req }) => {
-      const email = await db.getAllEmails();
-      console.log('email list:', email, 'entered email value:', value);
-      const isEmailInDb = await email.includes(value);
-      console.log('isEmailInDb:', isEmailInDb);
-      if (!isEmailInDb) {
-        throw new Error('email not found, sign up first');
-      }
-      console.log('Email found');
-    }),
+    .escape(),
+  // .custom(async (value, { req }) => {
+  //   const email = await db.getAllEmails();
+  //   //   console.log('email list:', email, 'entered email value:', value);
+  //   const isEmailInDb = await email.includes(value);
+  //   //   console.log('isEmailInDb:', isEmailInDb);
+  //   if (!isEmailInDb) {
+  //     throw new Error('email not found, sign up first');
+  //   }
+  //   //   console.log('Email found');
+  // })
   body('login_password')
     .trim()
     .isLength({ min: 1 })
     .withMessage('Password must be specified.')
     .isLength({ min: 8 })
     .withMessage('Password must be at least 8 characters long.')
-    .escape()
-    .custom(async (value, { req }) => {
-      // console.log('entered password:', value, 'email:', req.body.email);
-      const user = await db.getUserByEmail(req.body.login_email);
-      // console.log('user:', user);
-      // console.log(await bcrypt.compare(value, user[0].password));
-      const match = await bcrypt.compare(value, user[0].password);
-      if (!match) {
-        throw new Error('Incorrect Password');
-      } else {
-        return true;
-      }
-    }),
+    .escape(),
+  // .custom(async (value, { req }) => {
+  //   // console.log('entered password:', value, 'email:', req.body.email);
+  //   const user = await db.getUserByEmail(req.body.login_email);
+  //   // console.log('user:', user);
+  //   // console.log(await bcrypt.compare(value, user[0].password));
+  //   const match = await bcrypt.compare(value, user[0].password);
+  //   if (!match) {
+  //     throw new Error('Incorrect Password');
+  //   } else {
+  //     return true;
+  //   }
+  // }),
 ];
 
 module.exports = {
