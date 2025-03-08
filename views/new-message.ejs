@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= title %></title>
+  </head>
+  <body>
+    <section class="new-message-container">
+      <h1><%= title %></h1>
+      <h2><%= description %></h2>
+      <%- include('error') %>
+      <form action="/new-message" method="post" class="new-message-form">
+        <label for="new_message">Message: </label>
+        <textarea
+          type="text"
+          name="new_message"
+          id="new_message"
+          rows="10"
+          cols="50"
+        ></textarea>
+        <button class="new-message-form__button" type="submit">Send</button>
+      </form>
+    </section>
+  </body>
+</html>

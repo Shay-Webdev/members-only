@@ -148,8 +148,16 @@ const validateLogIn = [
   // }),
 ];
 
+const validateNewMessage = [
+  body('new_message')
+    .trim()
+    .isLength({ min: 1 })
+    .withMessage('Message must be specified.')
+    .escape(),
+];
 module.exports = {
   validateUser,
   validateJoinClubId,
   validateLogIn,
+  validateNewMessage,
 };

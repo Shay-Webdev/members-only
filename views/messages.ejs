@@ -2,8 +2,8 @@
 <div class="message-card">
   <h3><%= message.message_title %></h3>
   <p><%= message.message_content %></p>
-  <h4>
-    <%= message.user_name %> <% if (message.membership_status) {%>
+  <h4 class="message-card__author">
+    ~ <%= message.user_name %> <% if (message.membership_status) {%>
     <strong>(Member)</strong><% } else { } %>
   </h4>
   <p><%= message.posted_time %></p>

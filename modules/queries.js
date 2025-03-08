@@ -43,6 +43,14 @@ const getUserByEmail = async (email) => {
   ]);
   return rows;
 };
+
+const createNewMessage = async (message) => {
+  const { rows } = await pool.query(
+    'INSERT INTO messages (user_id, title, message) VALUES ($1, $2, $3) RETURNING *',
+    [message.user_id, message.title, message.message]
+  );
+  return rows;
+};
 module.exports = {
   getUsers,
   getAllEmails,
@@ -51,4 +59,5 @@ module.exports = {
   updateMembership,
   getUserById,
   getUserByEmail,
+  createNewMessage,
 };

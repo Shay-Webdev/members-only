@@ -3,6 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/styles.css" />
 
     <title><%= title %></title>
   </head>
@@ -15,11 +16,12 @@
 
       <section class="messages-container">
         <h1 class="main__title">Welcome, <%= user.username %></h1>
+        <a href="/new-message"><button>New Message</button></a>
         <%- include('messages') %>
         <a href="/log-out"><button>Log out</button></a>
       </section>
       <% } else {%>
-      <section>
+      <section class="messages-login-container">
         <h1>Please login</h1>
         <a href="/log-in"><button>Log in</button></a>
       </section>

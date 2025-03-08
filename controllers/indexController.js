@@ -23,7 +23,7 @@ passport.use(
 
         const rows = await db.getUserByEmail(username);
         const user = rows[0];
-        console.log(`LocalStrategy rows user: ${user}}`);
+        // console.log(`LocalStrategy rows user: ${user}}`);
 
         if (!user) {
           return done(null, false, { message: 'Incorrect email' });
@@ -50,7 +50,7 @@ passport.deserializeUser(async (id, done) => {
   try {
     console.log(`deserializing user-id: ${id}, `);
     const rows = await db.getUserById(id);
-    console.log('rows:', rows);
+    // console.log('rows:', rows);
 
     done(null, rows[0]);
   } catch (err) {
