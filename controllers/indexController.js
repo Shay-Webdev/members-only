@@ -67,15 +67,18 @@ passport.deserializeUser(async (id, done) => {
 });
 
 const getHomePage = async (req, res, next) => {
+  const messages = await db.getUsersAndMessages();
+  const filteredMessages = messages.filter(
+    (message) => message.message_content
+  );
   try {
-    const messages = await db.getUsersAndMessages();
     // console.log(res.locals.currentUser);
     // console.log(messages);
     // console.log('user in home page: ', req.user);
     res.render('../views/index', {
       title: 'Members Only Chat',
       description: 'Welcome to Members Only',
-      messages: messages,
+      messages: filteredMessages,
       user: req.user,
     });
     next();
@@ -210,6 +213,27 @@ const logOutGet = async (req, res, next) => {
     res.redirect('/');
   });
 };
+
+const deleteMessage = async (req, res, next) => {
+  const messages = await db.getUsersAndMessages();
+  const filteredMessages = messages.filter(
+    (message) => message.message_content
+  );
+  console.log('req id: ', req.params.id);
+  filteredMessages.forEach((message) => {
+    console.log(message.message_id);
+  });
+
+  const message = filteredMessages.find(
+    (message) => message.message_id == req.params.id
+  );
+  console.log('message: ', message);
+  if (!message) {
+    return res.status(404).json({ error: 'Message not found' });
+  }
+  await db.deleteMessage(req.params.id);
+  res.redirect('/');
+};
 module.exports = {
   getHomePage,
   signUpGet,
@@ -220,4 +244,5 @@ module.exports = {
   logInPost,
   passport,
   logOutGet,
+  deleteMessage,
 };

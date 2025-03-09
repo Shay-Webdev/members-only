@@ -21,4 +21,5 @@ indexRouter
   .route('/new-message')
   .get(newMessageController.newMessageGet)
   .post(newMessageController.newMessagePost);
+indexRouter.get('/delete-message/:id', indexController.deleteMessage);
 module.exports = indexRouter;
