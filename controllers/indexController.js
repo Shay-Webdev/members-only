@@ -48,8 +48,16 @@ passport.serializeUser((user, done) => {
 
 passport.deserializeUser(async (id, done) => {
   try {
+    // In indexController.js around line 55
+    if (!id) {
+      return res.redirect('/login');
+    }
+    // Rest of your code
     console.log(`deserializing user-id: ${id}, `);
     const rows = await db.getUserById(id);
+    if (!rows) {
+      return res.redirect('/login');
+    }
     // console.log('rows:', rows);
 
     done(null, rows[0]);
@@ -61,8 +69,9 @@ passport.deserializeUser(async (id, done) => {
 const getHomePage = async (req, res, next) => {
   try {
     const messages = await db.getUsersAndMessages();
+    // console.log(res.locals.currentUser);
     // console.log(messages);
-    // console.log(req.user);
+    // console.log('user in home page: ', req.user);
     res.render('../views/index', {
       title: 'Members Only Chat',
       description: 'Welcome to Members Only',
@@ -99,17 +108,24 @@ const signUpPost = [
       });
     } else {
       const hashedPassword = await bcrypt.hash(req.body.password, 10);
+      const is_admin = req.body.is_admin === 'on' ? true : false;
       const user = {
         username: req.body.email.split('@')[0],
         email: req.body.email,
         password: hashedPassword,
         fullname: `${req.body.first_name} ${req.body.last_name}`,
+        is_admin: is_admin,
       };
 
       // Handle successful sign-up logic here (e.g., save to database)
       await db.createUser(user);
-      console.log('User created: ', user);
+      console.log('User created  with req body: ', req.body);
 
+      if (req.body.is_admin === 'on') {
+        db.updateMembership(req.body.email);
+      }
+      console.log('membership updated');
+      req.body.is_admin == 'on' ? db.updateAdmin(req.body.email) : null;
       res.redirect('/'); // Redirect only if it's a form submission
     }
   },

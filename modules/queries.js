@@ -12,7 +12,7 @@ const getAllEmails = async () => {
 };
 const getUsersAndMessages = async () => {
   const { rows } = await pool.query(
-    'SELECT u.id as user_id, u.username as user_name, u.membership_status as membership_status, m.title as message_title, m.id as message_id, m.message as message_content , m.posted_time as message_post_time FROM users u LEFT JOIN messages m ON u.id = m.user_id'
+    'SELECT u.id as user_id, u.username as user_name, u.membership_status as membership_status,  u.is_admin as is_admin, m.title as message_title, m.id as message_id, m.message as message_content , m.posted_time as message_post_time FROM users u LEFT JOIN messages m ON u.id = m.user_id'
   );
   return rows;
 };
@@ -28,6 +28,14 @@ const createUser = async (user) => {
 const updateMembership = async (email) => {
   const { rows } = await pool.query(
     `UPDATE users SET membership_status = 't' WHERE email = $1 RETURNING *`,
+    [email]
+  );
+  return rows;
+};
+
+const updateAdmin = async (email) => {
+  const { rows } = await pool.query(
+    `UPDATE users SET is_admin = 't' WHERE email = $1 RETURNING *`,
     [email]
   );
   return rows;
@@ -60,4 +68,5 @@ module.exports = {
   getUserById,
   getUserByEmail,
   createNewMessage,
+  updateAdmin,
 };

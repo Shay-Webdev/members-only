@@ -8,7 +8,7 @@ const newMessageGet = async (req, res, next) => {
 
     res.render('../views/new-message', {
       title: 'New Message',
-      description: 'Create new messages:',
+      description: `Create your new messages  ${req.user.username}`,
     });
     next();
   } catch (err) {
@@ -25,8 +25,8 @@ const newMessagePost = [
       if (!errors.isEmpty()) {
         console.log(errors.array());
         return res.status(400).render('../views/new-message', {
-          title: 'New Message',
-          description: 'Create new messages:',
+          title: 'New Message ',
+          description: `Create your new messages ${req.user.username}`,
           error: errors.array(),
         });
       }
