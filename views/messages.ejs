@@ -1,6 +1,7 @@
 <% messages.forEach((message) => { %>
 <div class="message-card">
-  <% if (locals.user) { %>
+  <% if (locals.user) { %> <% if (locals.user.membership_status === true ||
+  locals.user.membership_status === 1) { %>
   <h3><%= message.message_title %></h3>
   <p><%= message.message_content %></p>
   <h4 class="message-card__author">
@@ -19,6 +20,19 @@
   <a href="/delete-message/<%= message.message_id %>">
     <button>Delete Message</button>
   </a>
+  <% } %> <% } else { %>
+  <h4 class="message-card__author">
+    ~ <%= message.user_name %> <% if (message.is_admin === true ||
+    message.is_admin === 1) { %>
+    <strong>(Member & Admin)</strong>
+    <% } else if (message.membership_status === true ||
+    message.membership_status === 1) { %>
+    <strong>(Member)</strong>
+    <% } else { %>
+    <strong>(Guest)</strong>
+    <% } %>
+  </h4>
+  <p><%= message.message_post_time %></p>
   <% } %> <% } else { %>
   <h4 class="message-card__author">
     ~ <%= message.user_name %> <% if (message.is_admin === true ||
